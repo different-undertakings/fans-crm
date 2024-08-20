@@ -6,6 +6,8 @@ import { JwtPayload } from './jwt-payload.interface';
 import * as bcrypt from 'bcrypt';
 import { JwtResponse } from './jwt-response.interface';
 
+const bcryptHashValue: number = 10;
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -19,7 +21,7 @@ export class AuthService {
       throw new UnauthorizedException('User already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, bcryptHashValue);
     await this.userModel.create({ name, password: hashedPassword });
   }
 
